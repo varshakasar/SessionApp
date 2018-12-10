@@ -155,14 +155,14 @@ router.delete('/user', isLoggedIn, (req, res, next) => {
 
 function isLoggedIn(req, res, next) {
   // check user is authenticated or not
-  if (req.session.email) {
+  if (req.session.email && req.session.pass) {
     next();
   } else {
     res.send('You are not logged in First Login..')
   }
 }
 router.get('/isUserAuthenticated', (req, res) => {
-  if (req.session.email) {
+  if (req.session.email && req.session.pass) {
     res.send("User is authenticated with email : " + req.session.email);
     res.end();
   } else {
