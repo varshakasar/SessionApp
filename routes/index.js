@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const MongoStore = require('connect-mongo')(session);
 const router = express.Router();
-var userSchema = require('../schema/userSchema.js');
+var userSchema = require('../models/userSchema.js');
 var User = mongoose.model('user', userSchema);
 mongoose.connect('mongodb://localhost/SessionDemo');
 var db = mongoose.connection;
