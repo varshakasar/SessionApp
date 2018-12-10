@@ -23,11 +23,7 @@ app.use(bodyParser.urlencoded({
   extended: true
 }))
 app.use('/', routes);
-app.use((err, req, res, next) => {
-  res.status(500).send({
-    "Error": err.stack
-  });
-});
+
 app.use((err, req, res, next) => {
   res.status(500).send({
     "Error": err.stack
