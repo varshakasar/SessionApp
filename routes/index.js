@@ -23,13 +23,13 @@ app.use(bodyParser.urlencoded({
 }));
 router.post('/login', (req, res) => {
   //validation
-  if (req.body && req.body.email && req.body.email == undefined) {
+  if ((typeof req.body.email == undefined) || req.body.email == "") {
     return res.json({
       success: false,
       message: ' Email Not Defined..'
     })
   }
-  if (req.body && req.body.pass && req.body.pass == undefined) {
+  if ((typeof req.body.pass == undefined) || req.body.pass == "") {
     return res.json({
       success: false,
       message: ' Password Not Defined..'
@@ -58,19 +58,19 @@ router.get('/users', isLoggedIn, (req, res, next) => {
   })
 })
 router.post('/createUser', isLoggedIn, (req, res, next) => {
-  if (req.body && req.body.email && req.body.email == undefined) {
+  if ((typeof req.body.email == undefined) || req.body.email == "") {
     return res.json({
       success: false,
       message: ' Email Not Defined..'
     })
   }
-  if (req.body && req.body.pass && req.body.pass == undefined) {
+  if ((typeof req.body.pass == undefined) || req.body.pass == "") {
     return res.json({
       success: false,
       message: ' Password Not Defined..'
     })
   }
-  if (req.body && req.body.user && req.body.user == undefined) {
+  if ((typeof req.body.user == undefined) || req.body.user == "") {
     return res.json({
       success: false,
       message: ' User Name Not Defined..'
