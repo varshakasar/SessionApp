@@ -1,26 +1,10 @@
 const express = require('express');
-const session = require('express-session');
-const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const MongoStore = require('connect-mongo')(session);
 const router = express.Router();
-var userSchema = require('../models/userSchema.js');
-var User = mongoose.model('user', userSchema);
-mongoose.connect('mongodb://localhost/SessionDemo');
-var db = mongoose.connection;
-var app = express();
-// register the session with it's secret ID
-app.use(session({
-  secret: 'secretkey',
-  store: new MongoStore({
-    mongooseConnection: db
-  })
-}));
-// register the bodyParser middleware
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({
-  extended: true
-}));
+
+let userSchema = require('../models/userSchema.js');
+let User = mongoose.model('user', userSchema);
+
 router.post('/login', (req, res) => {
   //validation
   if ((typeof req.body.email == undefined) || req.body.email == "") {
@@ -37,12 +21,32 @@ router.post('/login', (req, res) => {
   }
   let email = req.body.email;
   let pass = req.body.pass;
-  req.session.email = req.body.email;
-  req.session.pass = req.body.pass;
-  res.json({
-    success: true,
-    message: ' Successfully login..',
-    data: req.session
+
+  User.findOne({
+    email:email
+    }).exec((err, result) => {
+    if (result) {
+      if(result.pass == req.body.pass){
+        req.session.email = req.body.email;
+        req.session.pass = req.body.pass;
+        res.json({
+        success: true,
+        message: 'Valid User and login successfully'
+      })
+      }
+      else{
+        res.json({
+        success: false,
+        message: 'Incorrect password'
+      })
+      }
+
+    } else {
+      res.json({
+        success: false,
+        message: 'Invalid User'
+      })
+    }
   })
 });
 router.get('/users', isLoggedIn, (req, res, next) => {

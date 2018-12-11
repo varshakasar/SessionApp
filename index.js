@@ -1,16 +1,16 @@
 const express = require('express');
-var router = express.Router();
+let router = express.Router();
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
-var app = express();
-var routes = require('./routes/index.js');
+let app = express();
+let routes = require('./routes/index.js');
 mongoose.connect('mongodb://localhost/SessionDemo');
 var db = mongoose.connection;
 //handle mongodb error
 db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', function() {
+db.once('open', () => {
   console.log("Connected to DataBase...");
 });
 app.use(session({
